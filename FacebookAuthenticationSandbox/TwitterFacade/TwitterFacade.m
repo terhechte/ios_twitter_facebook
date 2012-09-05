@@ -5,7 +5,6 @@
 
 
 #import "TwitterFacade.h"
-#import "SA_OAuthTwitterEngine.h"
 
 #define TWITTER_AUTH_TOKEN      @"twitterAuthenticationToken"
 #define TWITTER_USERNAME        @"twitterUsername"
@@ -21,8 +20,6 @@
 @implementation TwitterFacade {
     NSString *_appConsumerKey;
     NSString *_appConsumerSecret;
-
-    SA_OAuthTwitterEngine *_engine;
 }
 
 @synthesize onEnterCredentials = _onEnterCredentials;
@@ -31,6 +28,7 @@
 @synthesize onLoginError = _onLoginError;
 @synthesize onLoginCanceled = _onLoginCanceled;
 @synthesize onLoggedOut = _onLoggedOut;
+@synthesize engine = _engine;
 
 
 - (id)initWithAppConsumerKey:(NSString *)appConsumerKey appConsumerSecret:(NSString *)appConsumerSecret {
@@ -86,12 +84,13 @@
 }
 
 - (BOOL)isAuthorized {
-    return _engine && [_engine isAuthorized];
+    return _engine!=nil && [_engine isAuthorized];
 }
 
 - (void)login {
     [self engineCreate];
     if ([self isAuthorized]) {
+        self.onSessionRestored(@"");
         return;
     }
 

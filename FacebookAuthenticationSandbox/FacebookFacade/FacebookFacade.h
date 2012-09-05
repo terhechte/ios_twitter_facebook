@@ -31,6 +31,12 @@
 
 - (void)restoreSession;
 
-- (void)requestWithGraphPath:(NSString *)path onSuccess:(FacebookMethodCallback)onSuccess onError:(FacebookErrorCallback)onError;
+- (NSString*) accessToken;
 
+- (bool) isLoggedIn;
+    
+- (void)requestWithGraphPath:(NSString *)path onSuccess:(FacebookMethodCallback)onSuccess onError:(FacebookErrorCallback)onError;
+- (void)requestWithGraphPath:(NSString *)path params:(NSMutableDictionary*)params onSuccess:(FacebookMethodCallback)onSuccess onError:(FacebookErrorCallback)onError;
+- (void)requestWithGraphPath:(NSString *)path httpMethod:(NSString*)method params:(NSMutableDictionary*)params onSuccess:(FacebookMethodCallback)onSuccess onError:(FacebookErrorCallback)onError;
+    
 @end

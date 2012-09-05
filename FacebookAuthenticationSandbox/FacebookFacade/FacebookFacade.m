@@ -35,13 +35,17 @@
 - (id)initWithAppId:(NSString *)appId {
     self = [super init];
     if (self) {
-        _permissions = [[NSArray alloc] initWithObjects:@"offline_access", @"user_about_me", nil];
+        _permissions = [[NSArray alloc] initWithObjects:@"status_update", @"photo_upload", @"share_item", @"publish_stream", nil];
         _facebook = [[Facebook alloc] initWithAppId:appId andDelegate:self];
 
         [self defaultsLoad];
     }
 
     return self;
+}
+
+- (bool) isLoggedIn {
+    return [_facebook isSessionValid];
 }
 
 - (void)dealloc {
@@ -122,9 +126,23 @@
     self.onSessionInvalidated();
 }
 
+- (NSString*) accessToken {
+    return _facebook.accessToken;
+}
+
 - (void)requestWithGraphPath:(NSString *)path onSuccess:(FacebookMethodCallback)onSuccess onError:(FacebookErrorCallback)onError {
     FacebookResponseDelegate *responseDelegate = [[[FacebookResponseDelegate alloc] initWithOnSuccess:onSuccess onError:onError] autorelease];
     [_facebook requestWithGraphPath:path andDelegate:responseDelegate];
 }
 
+- (void)requestWithGraphPath:(NSString *)path params:(NSMutableDictionary*)params onSuccess:(FacebookMethodCallback)onSuccess onError:(FacebookErrorCallback)onError {
+    FacebookResponseDelegate *responseDelegate = [[[FacebookResponseDelegate alloc] initWithOnSuccess:onSuccess onError:onError] autorelease];
+    [_facebook requestWithGraphPath:path andParams:params andDelegate:responseDelegate];
+}
+
+
+- (void)requestWithGraphPath:(NSString *)path httpMethod:(NSString*)method params:(NSMutableDictionary*)params onSuccess:(FacebookMethodCallback)onSuccess onError:(FacebookErrorCallback)onError {
+    FacebookResponseDelegate *responseDelegate = [[[FacebookResponseDelegate alloc] initWithOnSuccess:onSuccess onError:onError] autorelease];
+    [_facebook requestWithGraphPath:path andParams:params andHttpMethod:method andDelegate:responseDelegate];
+}
 @end

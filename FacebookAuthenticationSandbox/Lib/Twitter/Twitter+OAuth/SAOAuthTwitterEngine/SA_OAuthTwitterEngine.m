@@ -92,7 +92,10 @@
 		[_accessToken release];
 		_accessToken = [[OAToken alloc] initWithHTTPResponseBody: accessTokenString];
 		[self setUsername: [self extractUsernameFromHTTPBody: accessTokenString] password: nil];
-		if (_accessToken.key && _accessToken.secret) return YES;
+		if (_accessToken.key && _accessToken.secret) {
+            NSLog(@"return yes");
+            return YES;
+        }
 	}
 	
 	[_accessToken release];										// no access token found.  create a new empty one

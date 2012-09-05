@@ -7,6 +7,7 @@
 #import <Foundation/Foundation.h>
 #import "MGTwitterEngineDelegate.h"
 #import "SA_OAuthTwitterController.h"
+#import "SA_OAuthTwitterEngine.h"
 
 @class ViewController;
 
@@ -21,6 +22,7 @@ typedef void(^TwitterUserCallback)(NSString *);
 @property(nonatomic, copy) Callback onLoginError;
 @property(nonatomic, copy) Callback onLoginCanceled;
 @property(nonatomic, copy) Callback onLoggedOut;
+@property(nonatomic, retain) SA_OAuthTwitterEngine* engine;
 
 
 - (id)initWithAppConsumerKey:(NSString *)appConsumerKey appConsumerSecret:(NSString *)appConsumerSecret;
